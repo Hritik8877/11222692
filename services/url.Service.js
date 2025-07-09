@@ -18,8 +18,9 @@ export function shortenURL(req, res) {
     }
   }
 
-  const expiryTimestamp = Date.now() + ((validity || 30) * 60 * 1000);
-  const expiry = new Date(expiryTimestamp).toISOString();
+const expiryTimestamp = Date.now() + ((validity || 30) * 60 * 1000);
+const expiry = new Date(Math.floor(expiryTimestamp / 1000) * 1000).toISOString().replace(/\.\d{3}Z$/, 'Z');
+
 
   data[code] = {
     originalURL: url,
