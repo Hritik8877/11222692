@@ -18,15 +18,20 @@ export function shortenURL(req, res) {
     }
   }
 
-  const expiry = Date.now() + ((validity || 30) * 60 * 1000);
+  const expiryTimestamp = Date.now() + ((validity || 30) * 60 * 1000);
+  const expiry = new Date(expiryTimestamp).toISOString();
 
   data[code] = {
     originalURL: url,
-    expiresAt: expiry
+    expiresAt: expiryTimestamp
   };
 
-  return res.status(201).json({ shortURL: `http://localhost:5000/${code}` });
+  return res.status(201).json({
+    shortLink: `https://localhost:5000/${code}`,
+    expiry
+  });
 }
+
 
 export function redirectURL(req, res) {
   const { shortcode } = req.params;
